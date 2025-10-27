@@ -38,7 +38,17 @@ class Nave{
   method alejarseUnPocoAlSol(){
     direccion = (direccion-1).max(-10)
   }
+
+  /*
+  Pongo un *método abstracto*. Decimos que ponemos la firma del método.
+  Esto fuerza a que todos sus hijos sean polimórficos en este método. Además da error si la queremos instanciar. Por eso la llamamos *clase abstracta*
+  Es cómo una especie de contrato. Se relaciona con el concepto de interfaz.
+  */
+
+
+
 }
+
 
 class NaveBaliza inherits Nave{
   var colorDeBaliza = "verde"
@@ -65,15 +75,40 @@ class NaveDePasajeros inherits Nave{
 
 class NaveDeCombate inherits Nave{
   var estaInvisible = true
+  var misilesDesplegados = true
+  const mensajes = []
 
   method estaInvisible() = estaInvisible
+
   method ponerseVisible(){
     estaInvisible = false
   }
+
   method ponerseInvisible(){
     estaInvisible = true
   }
 
+  method desplegarMisiles(){
+    misilesDesplegados = true
+  }
+
+  method replegarMisiles(){
+    misilesDesplegados = false
+  }
+
+  method misilesDesplegados() = misilesDesplegados
+
+  method emitirMensaje(mensaje){
+    // ojota 1
+    mensajes.add(mensaje)
+  }
+
+  method mensajesEmitidos() = mensajes
+
+  method primerMensajeEmitido() = mensajes.first()
+  method ultimoMensajeEmitido() = mensajes.last()
+  method esEscueta() = mensajes.all{m => m.length() <= 30}
+  method emitioMensaje(mensaje) = mensajes.contains(mensaje)
 
 
 }
