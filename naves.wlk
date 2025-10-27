@@ -10,11 +10,12 @@ class Nave{
   var velocidad
   var direccion
 
-  method acelerar(cantidad){
-    velocidad = (velocidad + cantidad).min(100000) 
+  // método de efecto. La cota se pone cuando lo setteamos, no cuando lo consultamos.
+  method acelerar(cuanto){
+    velocidad = (velocidad + cuanto).min(100000) 
   }
-  method desacelerar(cantidad){
-    velocidad = (velocidad - cantidad).max(0)
+  method desacelerar(cuanto){
+    velocidad = (velocidad - cuanto).max(0)
 
   }
 
@@ -52,12 +53,12 @@ class NaveDePasajeros inherits Nave{
   var racionesDeComida
   var racionesDeBebida
 
-  method cargarComida(cantidad){
-    racionesDeComida += cantidad
+  method cargarComida(cuanto){
+    racionesDeComida += cuanto
   }
 
-  method cargarBebida(cantidad){
-    racionesDeBebida += cantidad
+  method cargarBebida(cuanto){
+    racionesDeBebida += cuanto
   }
 
 }
@@ -73,7 +74,7 @@ class NaveDeCombate inherits Nave{
     estaInvisible = true
   }
 
-  
+
 
 }
 
