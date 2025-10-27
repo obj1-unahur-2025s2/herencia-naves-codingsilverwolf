@@ -9,6 +9,33 @@ Son dos métodos distintos. Tienen distinta firma.
 class Nave{
   var velocidad
   var direccion
+  var combustible // sólo pondría el property si no hubiese ninguna lógica para cargarlo. Pero tengo cargar y descargar
+
+  /*
+  Pongo un *método abstracto*. Decimos que ponemos la firma del método. En este caso la firma es "method prepararViaje()"
+  Esto fuerza a que todos sus hijos sean polimórficos en este método. Además da error si la queremos instanciar. Por eso la llamamos *clase abstracta*
+  Es cómo una especie de contrato. Se relaciona con el concepto de interfaz.
+  Ponemos los métodos abstractos arriba.
+  */
+
+  // El apartado Combustible hace que deje de ser abstracto la clase? No si hago accionAdicional(). Queda más modular.
+
+  method prepararViaje()
+
+  method accionAdicional(){
+    self.cargarCombustible(3000)
+    self.acelerar(5000)
+  }
+
+
+  method cargarCombustible(cantidad){
+    combustible += cantidad
+  }
+
+  method descargarCombustible(cantidad){
+    combustible -= cantidad
+  }
+
 
   // método de efecto. La cota se pone cuando lo setteamos, no cuando lo consultamos.
   method acelerar(cuanto){
@@ -39,11 +66,7 @@ class Nave{
     direccion = (direccion-1).max(-10)
   }
 
-  /*
-  Pongo un *método abstracto*. Decimos que ponemos la firma del método.
-  Esto fuerza a que todos sus hijos sean polimórficos en este método. Además da error si la queremos instanciar. Por eso la llamamos *clase abstracta*
-  Es cómo una especie de contrato. Se relaciona con el concepto de interfaz.
-  */
+  
 
 
 
@@ -55,6 +78,12 @@ class NaveBaliza inherits Nave{
 
   method cambiarColorDeBaliza(colorNuevo){
     colorDeBaliza = colorNuevo
+  }
+
+  override method prepararViaje(){
+    self.accionAdicional()
+    self.cambiarColorDeBaliza("verde")
+    self.ponerseParaleloAlSol() 
   }
 }
 
@@ -69,6 +98,13 @@ class NaveDePasajeros inherits Nave{
 
   method cargarBebida(cuanto){
     racionesDeBebida += cuanto
+  }
+
+  override method prepararViaje(){
+    self.accionAdicional()
+    self.cargarComida(4*pasajeros)
+    self.cargarBebida(6*pasajeros)
+    self.acercarseUnPocoAlSol()
   }
 
 }
@@ -110,6 +146,13 @@ class NaveDeCombate inherits Nave{
   method esEscueta() = mensajes.all{m => m.length() <= 30}
   method emitioMensaje(mensaje) = mensajes.contains(mensaje)
 
+  override method prepararViaje(){
+    self.accionAdicional()
+    self.ponerseVisible()
+    self.replegarMisiles()
+    self.acelerar(15000)
+    self.emitirMensaje("Saliendo en  misión")
+  }
 
 }
 
