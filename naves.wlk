@@ -18,9 +18,30 @@ class Nave{
   Ponemos los métodos abstractos arriba.
   */
 
-  // El apartado Combustible hace que deje de ser abstracto la clase? No si hago accionAdicional(). Queda más modular.
+  // El apartado Combustible hace que deje de ser abstracto la clase? No si hago accionAdicional(). Elegí mantener la abstracción.
+
+  method estaTranquila()
 
   method prepararViaje()
+
+  method escapar()
+
+  method avisar()
+
+  method tienePocaActividad() // es abstracta porque lo definen las hijas
+
+  method estaDeRelajo() = self.estaTranquila() and self.tienePocaActividad()
+
+  // Este no es abstracto. Ya está definido.
+  method recibirAmenaza() {
+    self.escapar()
+    self.avisar()
+  }
+  
+
+  method condiconesParaLaTranquilidad() = combustible >= 4000 and velocidad <= 12000
+
+  
 
   method accionAdicional(){
     self.cargarCombustible(3000)
@@ -66,18 +87,17 @@ class Nave{
     direccion = (direccion-1).max(-10)
   }
 
-  
-
-
 
 }
 
 
 class NaveBaliza inherits Nave{
-  var colorDeBaliza = "verde"
+  var property colorDeBaliza = "verde"
+  var cambioDeColor = false
 
   method cambiarColorDeBaliza(colorNuevo){
     colorDeBaliza = colorNuevo
+    cambioDeColor = true
   }
 
   override method prepararViaje(){
@@ -85,6 +105,11 @@ class NaveBaliza inherits Nave{
     self.cambiarColorDeBaliza("verde")
     self.ponerseParaleloAlSol() 
   }
+
+  // ojota con super(). Acá no corresponde, no tiene sentido.
+  override method estaTranquila() = self.condiconesParaLaTranquilidad() and self.colorDeBaliza() != "rojo"
+
+  override method tienePocaActividad() = not cambioDeColor
 }
 
 class NaveDePasajeros inherits Nave{
@@ -106,6 +131,8 @@ class NaveDePasajeros inherits Nave{
     self.cargarBebida(6*pasajeros)
     self.acercarseUnPocoAlSol()
   }
+
+  override method estaTranquila() = self.condiconesParaLaTranquilidad()
 
 }
 
@@ -154,5 +181,31 @@ class NaveDeCombate inherits Nave{
     self.emitirMensaje("Saliendo en  misión")
   }
 
+  override method estaTranquila() = self.condiconesParaLaTranquilidad() and not self.misilesDesplegados()
+
 }
+
+class NaveHospital inherits NaveDePasajeros{
+  var quirofanosPreparados = false
+  
+  method prepararQuirofanos(){
+    quirofanosPreparados = true
+  }
+
+  method quirofanosPreparados()= quirofanosPreparados
+
+  method utilizarQuirofanos(){
+    quirofanosPreparados = false
+  }
+
+  // uso la consulta de preparados. Además utilizo super() porque entonces hereda de pasajeros y pasajeros no es abstracta.
+  override method estaTranquila() = super() and not self.quirofanosPreparados()
+}
+
+class NaveSigilosa inherits NaveDeCombate{
+
+  override method estaTranquila() = super() and not self.estaInvisible()
+
+}
+
 
