@@ -1,6 +1,9 @@
-import example.pepita
+import naves.*
 
-describe "group of tests for pepita" {
+describe "test modelo básico" {
+  const naveBaliza1 = new NaveBaliza(velocidad = 8000, direccion = 0, combustible = 8000)
+  const navePasajeros = new NaveDePasajeros(velocidad = 7000, direccion = 10, combustible = 10000)
+  const naveCombate = new NaveBaliza(velocidad = 7000, direccion = 10, combustible = 10000)
 
   test "pepita has initial energy" {
     assert.equals(100, pepita.energy())
