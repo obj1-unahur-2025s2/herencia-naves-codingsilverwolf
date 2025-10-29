@@ -110,15 +110,25 @@ class NaveBaliza inherits Nave{
   override method estaTranquila() = self.condiconesParaLaTranquilidad() and self.colorDeBaliza() != "rojo"
 
   override method tienePocaActividad() = not cambioDeColor
+
+  override method escapar(){
+    self.irHaciaElSol()
+  }
+
+  override method avisar(){
+    self.cambiarColorDeBaliza("rojo")
+  }
 }
 
 class NaveDePasajeros inherits Nave{
-  const pasajeros
-  var racionesDeComida
-  var racionesDeBebida
+  const pasajeros = 0
+  var racionesDeComida = 2
+  var racionesDeBebida = 2
+  var racionesDeComidaServidas = 0
 
   method cargarComida(cuanto){
     racionesDeComida += cuanto
+    racionesDeComidaServidas += cuanto
   }
 
   method cargarBebida(cuanto){
@@ -133,6 +143,17 @@ class NaveDePasajeros inherits Nave{
   }
 
   override method estaTranquila() = self.condiconesParaLaTranquilidad()
+
+  override method tienePocaActividad() = racionesDeComidaServidas < 50
+
+  override method escapar(){
+    self.acelerar(velocidad)
+  }
+
+  override method avisar(){
+    racionesDeComida = (racionesDeComida - pasajeros).min(0)
+    racionesDeBebida = (racionesDeComida - 2*pasajeros).min(0)
+  }
 
 }
 
@@ -182,6 +203,15 @@ class NaveDeCombate inherits Nave{
   }
 
   override method estaTranquila() = self.condiconesParaLaTranquilidad() and not self.misilesDesplegados()
+
+  override method escapar(){
+    self.acercarseUnPocoAlSol()
+    self.acercarseUnPocoAlSol()
+  }
+
+  override method avisar(){
+    self.emitirMensaje("Amenaza recibida")
+  }
 
 }
 
