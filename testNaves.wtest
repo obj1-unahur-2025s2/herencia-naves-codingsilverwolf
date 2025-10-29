@@ -2,12 +2,34 @@ import naves.*
 
 describe "test modelo básico" {
   const naveBaliza1 = new NaveBaliza(velocidad = 8000, direccion = 0, combustible = 8000)
-  const navePasajeros1 = new NaveDePasajeros(velocidad = 7000, direccion = 10, combustible = 10000)
-  const naveCombate1 = new NaveDeCombate(velocidad = 10000, direccion = 10, combustible = 8000)
+  const naveDePasajeros1 = new NaveDePasajeros(velocidad = 7000, direccion = 0, combustible = 10000, pasajeros = 20)
+  const naveDeCombate1 = new NaveDeCombate(velocidad = 10000, direccion = 10, combustible = 8000)
 
   test "Una nave baliza cambia su color de baliza a rojo y ya no reporta poca actividad" {
     naveBaliza1.cambiarColorDeBaliza("rojo")
     assert.notThat(naveBaliza1.tienePocaActividad())
+  }
+  test "Una nave de pasajeros que estaba rodeando al sol a una velocidad de 7000 con 20 pasajeros, 2 raciones de comida y 2 raciones de bebida se prepara para el viaje y ahora tiene 82 raciones de comida,  122 raciones de bebida, tiene una dirección de 1, tiene 13000 de combustible y 12000 de velocidad"{
+
+    naveDePasajeros1.prepararViaje()
+    assert.equals(82, naveDePasajeros1.racionesDeComida())
+    assert.equals(122, naveDePasajeros1.racionesDeBebida())
+    assert.equals(1, naveDePasajeros1.direccion())
+    assert.equals(13000, naveDePasajeros1.combustible())
+    assert.equals(12000, naveDePasajeros1.velocidad())
+
+  }
+
+  test "Una nave de combate con una velocidad de 10000 acercándose al sol y 8000 de combistible emite el mensaje _Estamos aburridos, que pase algo_. Luego se prepara para el viaje y ahora tiene 11000 de combustible, 30000 de velocidad, está visible, tiene los misiles replegados y es no es escueta"{
+
+    naveDeCombate1.emitirMensaje("Estamos aburridos, que pase algo")
+    naveDeCombate1.prepararViaje()
+    assert.equals(11000, naveDeCombate1.combustible())
+    assert.equals(30000, naveDeCombate1.velocidad())
+    assert.notThat(naveDeCombate1.estaInvisible())
+    assert.notThat(naveDeCombate1.misilesDesplegados())
+    assert.notThat(naveDeCombate1.esEscueta())
+
   }
 
 }
