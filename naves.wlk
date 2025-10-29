@@ -213,6 +213,8 @@ class NaveDeCombate inherits Nave{
     self.emitirMensaje("Amenaza recibida")
   }
 
+  override method tienePocaActividad() = not self.estaInvisible() and not self.misilesDesplegados()
+
 }
 
 class NaveHospital inherits NaveDePasajeros{
