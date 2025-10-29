@@ -57,6 +57,9 @@ class Nave{
     combustible -= cantidad
   }
 
+  // Agregado para test
+  method combustible() = combustible
+
 
   // método de efecto. La cota se pone cuando lo setteamos, no cuando lo consultamos.
   method acelerar(cuanto){
@@ -66,6 +69,9 @@ class Nave{
     velocidad = (velocidad - cuanto).max(0)
 
   }
+
+  // Agregado para test
+  method velocidad() = velocidad
 
   method irHaciaElSol(){
     direccion = 10
@@ -78,6 +84,9 @@ class Nave{
   method ponerseParaleloAlSol(){
     direccion = 0
   }
+
+  // Agregado para test
+  method direccion() = direccion
 
   method acercarseUnPocoAlSol(){
     direccion = (direccion+1).min(10)
@@ -121,10 +130,14 @@ class NaveBaliza inherits Nave{
 }
 
 class NaveDePasajeros inherits Nave{
-  const pasajeros = 0
+  const property pasajeros = 0
   var racionesDeComida = 2
   var racionesDeBebida = 2
   var racionesDeComidaServidas = 0
+
+  // agregado por test
+  method racionesDeComida() = racionesDeComida
+  method racionesDeBebida() = racionesDeBebida
 
   method cargarComida(cuanto){
     racionesDeComida += cuanto
